@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Empezar proyecto — Astro</title>
+  <meta name="description" content="Cuéntanos qué necesita tu negocio en Mazatlán: página web, chatbot, automatización o tarjetas NFC de reseñas. Te respondemos por WhatsApp en menos de 24 horas." />
+  <link rel="canonical" href="https://byastro.lat/empezar.html" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/favicon-192.png" />
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
+  <meta name="theme-color" content="#030509" />
+  <meta property="og:title" content="Empezar proyecto — Astro" />
+  <meta property="og:description" content="Con unos datos es suficiente. Te respondo por WhatsApp con ideas claras para tu negocio." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://byastro.lat/empezar.html" />
+  <meta property="og:locale" content="es_MX" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" />
+  <link rel="stylesheet" href="astro.css?v=2026-11-05" />
+
+  <script>
+    (function () {
+      var t;
+      try { t = localStorage.getItem('theme'); } catch (e) {}
+      if (t !== 'light' && t !== 'dark') {
+        t = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+  <style>
+    /* Estilos propios de "Empezar proyecto". Tokens, base, botones, nav y footer en astro.css */
+
+    .start {
+      padding: calc(var(--nav-h) + var(--s-6)) 0 var(--section-y);
+    }
+
+    .start-header {
+      max-width: 640px;
+      margin: 0 0 var(--s-6);
+    }
+
+    .start-title {
+      font-size: var(--fs-h2);
+      font-weight: 400;
+      line-height: 1.1;
+      letter-spacing: var(--tracking-tight);
+      color: var(--text);
+      margin-bottom: var(--s-2);
+    }
+
+    .start-subtitle {
+      max-width: 520px;
+      color: var(--text-2);
+    }
+
+    .start-layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--s-3);
+      align-items: start;
+    }
+
+    .start-form {
+      display: flex;
+      flex-direction: column;
+      gap: var(--s-2);
+    }
+
+    /* Sección del formulario */
+    .form-section {
+      min-width: 0;
+      margin: 0;
+      padding: var(--s-3);
+    }
+
+    .form-legend {
+      display: flex;
+      align-items: baseline;
+      gap: var(--s-2);
+      padding: 0;
+      margin-bottom: var(--s-3);
+      font-size: 1.125rem;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      color: var(--text);
+    }
+
+    /* El legend nativo se monta sobre el borde; float lo mete dentro de la tarjeta */
+    legend.form-legend { float: left; width: 100%; }
+    legend.form-legend + * { clear: both; }
+
+    .form-num {
+      font-size: var(--fs-xs);
+      font-weight: 500;
+      letter-spacing: var(--tracking-label);
+      font-variant-numeric: tabular-nums;
+      color: var(--accent);
+    }
+
+    .form-sub {
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--text);
+      margin: 0 0 var(--s-2);
+    }
+
+    .form-group {
+      border: 0;
+      margin: 0;
+      padding: 0;
+      min-width: 0;
+    }
+
+    .form-group + .form-group { margin-top: var(--s-4); }
+
+    .form-hint {
+      font-size: var(--fs-sm);
+      color: var(--text-3);
+      margin: calc(-1 * var(--s-1)) 0 var(--s-2);
+    }
+
+    /* Campos de texto */
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: var(--s-1);
+    }
+
+    .field + .field { margin-top: var(--s-3); }
+
+    .field-label {
+      font-size: var(--fs-md);
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    .field-optional {
+      font-weight: 400;
+      color: var(--text-3);
+    }
+
+    .field-input {
+      width: 100%;
+      min-height: 48px;
+      padding: 12px var(--s-2);
+      font: inherit;
+      font-size: 1rem;
+      color: var(--text);
+      background: var(--surface);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-sm);
+      transition: border-color var(--dur-fast) var(--ease);
+    }
+
+    .field-input::placeholder { color: var(--text-3); }
+    .field-input:hover { border-color: var(--text-3); }
+
+    .field-input:focus {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+      border-color: var(--accent);
+    }
+
+    textarea.field-input {
+      min-height: 128px;
+      resize: vertical;
+      line-height: 1.5;
+    }
+
+    .field-input[aria-invalid="true"] { border-color: var(--danger); }
+
+    .field-error {
+      font-size: var(--fs-sm);
+      color: var(--danger);
+    }
+
+    .field-error:empty { display: none; }
+    .group-error { margin-top: var(--s-1); }
+
+    /* Opciones tipo tarjeta */
+    .options {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--s-1);
+    }
+
+    .option {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: var(--s-2);
+      min-height: 56px;
+      padding: 12px var(--s-2);
+      font-size: var(--fs-md);
+      line-height: 1.35;
+      color: var(--text);
+      background: var(--surface);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: border-color var(--dur-fast) var(--ease), background-color var(--dur-fast) var(--ease);
+    }
+
+    .option:hover { border-color: var(--text-3); }
+
+    .option input {
+      position: absolute;
+      opacity: 0;
+      width: 1px;
+      height: 1px;
+      pointer-events: none;
+    }
+
+    .option-mark {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      background: var(--surface);
+      border: 1px solid var(--border-strong);
+      transition: background-color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease);
+    }
+
+    .option input[type="checkbox"] + .option-mark { border-radius: 6px; }
+    .option input[type="radio"] + .option-mark { border-radius: 50%; }
+
+    .option-mark::after {
+      content: "";
+      opacity: 0;
+      transition: opacity var(--dur-fast) var(--ease);
+    }
+
+    .option input[type="checkbox"] + .option-mark::after {
+      width: 10px;
+      height: 6px;
+      border-left: 2px solid var(--on-accent);
+      border-bottom: 2px solid var(--on-accent);
+      transform: translateY(-1px) rotate(-45deg);
+    }
+
+    .option input[type="radio"] + .option-mark::after {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--on-accent);
+    }
+
+    .option:has(input:checked) {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .option input:checked + .option-mark {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .option input:checked + .option-mark::after { opacity: 1; }
+
+    .option:has(input:focus-visible) {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+    }
+
+    .options.is-invalid .option { border-color: var(--danger); }
+
+    /* Honeypot */
+    .hp {
+      position: absolute;
+      left: -10000px;
+      top: auto;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
+
+    /* Envío */
+    .form-actions {
+      display: flex;
+      flex-direction: column;
+      gap: var(--s-2);
+      padding-top: var(--s-1);
+    }
+
+    .form-actions .btn {
+      width: 100%;
+      min-height: 56px;
+    }
+
+    .form-privacy {
+      font-size: var(--fs-sm);
+      color: var(--text-3);
+      text-align: center;
+    }
+
+    .submit-error { border-color: var(--danger); }
+    .submit-error .btn { margin-top: var(--s-2); }
+
+    /* Panel de resumen */
+    .summary { padding: var(--s-3); }
+
+    .summary-title {
+      font-size: 1.125rem;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin-bottom: var(--s-2);
+    }
+
+    .summary-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--s-2);
+      margin-bottom: var(--s-3);
+    }
+
+    .summary-item dt {
+      font-size: var(--fs-xs);
+      font-weight: 500;
+      letter-spacing: var(--tracking-label);
+      text-transform: uppercase;
+      color: var(--text-3);
+      margin-bottom: 4px;
+    }
+
+    .summary-item dd {
+      font-size: var(--fs-md);
+      line-height: 1.45;
+      color: var(--text);
+    }
+
+    .summary-item dd.is-empty { color: var(--text-3); }
+
+    .summary-progress-label {
+      display: block;
+      margin-bottom: var(--s-1);
+      font-size: var(--fs-sm);
+      font-weight: 500;
+      color: var(--text-2);
+    }
+
+    .summary-bar {
+      height: 4px;
+      overflow: hidden;
+      background: var(--border);
+      border-radius: var(--radius-pill);
+    }
+
+    .summary-bar-fill {
+      height: 100%;
+      width: 0;
+      background: var(--accent);
+      border-radius: inherit;
+      transition: width var(--dur) var(--ease);
+    }
+
+    /* Pantalla de éxito */
+    .success {
+      max-width: 640px;
+      padding: var(--s-5) var(--s-3);
+      text-align: center;
+    }
+
+    .success:focus { outline: none; }
+
+    .success-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 56px;
+      height: 56px;
+      margin: 0 auto var(--s-3);
+      border-radius: 50%;
+      color: var(--accent);
+      border: 1px solid var(--border-strong);
+    }
+
+    .success-icon svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    .success-title {
+      font-size: clamp(1.5rem, 1.1rem + 1.5vw, 2rem);
+      font-weight: 400;
+      line-height: 1.2;
+      letter-spacing: var(--tracking-tight);
+      color: var(--text);
+      margin-bottom: var(--s-2);
+    }
+
+    .success-text {
+      color: var(--text-2);
+      margin-bottom: var(--s-4);
+    }
+
+    .success-actions {
+      display: flex;
+      flex-direction: column;
+      gap: var(--s-2);
+      align-items: stretch;
+    }
+
+    /* ==========================================================
+       RESPONSIVE
+       ========================================================== */
+    @media (min-width: 600px) {
+      .options--grid { grid-template-columns: repeat(2, 1fr); }
+      .form-section,
+      .summary { padding: var(--s-4); }
+      .success-actions {
+        flex-direction: row;
+        justify-content: center;
+      }
+    }
+
+    @media (min-width: 900px) {
+      .start { padding-top: calc(var(--nav-h) + var(--s-8)); }
+      .start-layout {
+        grid-template-columns: minmax(0, 1fr) 304px;
+        gap: var(--s-4);
+      }
+      .summary {
+        position: sticky;
+        top: calc(var(--nav-h) + var(--s-3));
+      }
+      .form-actions .btn {
+        width: auto;
+        align-self: flex-start;
+      }
+      .form-privacy { text-align: left; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       NAVIGATION
+       ============================================================ -->
+  <header class="nav" id="nav">
+    <div class="container nav-inner">
+      <a href="/" class="nav-logo" aria-label="Astro — inicio">
+        <img
+          class="nav-logo-img"
+          src="assets/astro-logo-icon.png"
+          width="243"
+          height="225"
+          alt="Logo Astro"
+          decoding="async"
+        />
+      </a>
+
+      <nav class="nav-links" aria-label="Principal">
+        <a href="/#pricing" class="nav-link">Servicios</a>
+        <a href="/catalogo.html" class="nav-link">Catálogo</a>
+        <a href="/#faq" class="nav-link">Preguntas</a>
+      </nav>
+
+      <a href="/empezar.html" class="btn btn-primary nav-cta" aria-current="page">
+        Empezar proyecto
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M5 12h14" />
+          <path d="M13 5l7 7-7 7" />
+        </svg>
+      </a>
+
+      <button class="nav-toggle" id="navToggle" aria-label="Abrir o cerrar menú" aria-expanded="false" aria-controls="mobileMenu">
+        <span class="nav-toggle-icon">
+          <span></span><span></span><span></span>
+        </span>
+      </button>
+    </div>
+  </header>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="/#pricing">Servicios</a>
+    <a href="/catalogo.html">Catálogo</a>
+    <a href="/#faq">Preguntas</a>
+    <a href="/empezar.html" class="btn btn-primary" aria-current="page">
+      Empezar proyecto
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 5l7 7-7 7"/></svg>
+    </a>
+  </div>
+
+  <main class="start" id="main">
+    <div class="container">
+
+      <header class="start-header">
+        <span class="eyebrow">Empezar proyecto</span>
+        <h1 class="start-title">Cuéntame qué necesitas</h1>
+        <p class="start-subtitle">Con unos datos es suficiente. Te respondo por WhatsApp con ideas claras para tu negocio.</p>
+      </header>
+
+      <div class="start-layout" id="startLayout">
+
+        <form class="start-form" id="startForm" novalidate>
+
+          <!-- 01 -->
+          <fieldset class="card form-section">
+            <legend class="form-legend"><span class="form-num" aria-hidden="true">01</span> Sobre ti</legend>
+
+            <div class="field">
+              <label class="field-label" for="nombre">Nombre completo</label>
+              <input class="field-input" type="text" id="nombre" name="nombre" autocomplete="name" required aria-describedby="nombre-error" />
+              <p class="field-error" id="nombre-error" aria-live="polite"></p>
+            </div>
+
+            <div class="field">
+              <label class="field-label" for="whatsapp">WhatsApp</label>
+              <input class="field-input" type="tel" id="whatsapp" name="whatsapp" inputmode="tel" autocomplete="tel-national" placeholder="669 123 4567" required aria-describedby="whatsapp-hint whatsapp-error" />
+              <p class="form-hint" id="whatsapp-hint" style="margin: 0;">10 dígitos. Por aquí te voy a responder.</p>
+              <p class="field-error" id="whatsapp-error" aria-live="polite"></p>
+            </div>
+
+            <div class="field">
+              <label class="field-label" for="correo">Correo <span class="field-optional">(opcional)</span></label>
+              <input class="field-input" type="email" id="correo" name="correo" autocomplete="email" aria-describedby="correo-error" />
+              <p class="field-error" id="correo-error" aria-live="polite"></p>
+            </div>
+
+            <div class="field">
+              <label class="field-label" for="negocio">Nombre de tu negocio <span class="field-optional">(opcional)</span></label>
+              <input class="field-input" type="text" id="negocio" name="negocio" autocomplete="organization" placeholder="Ej. Café La Marina" />
+            </div>
+          </fieldset>
+
+          <!-- 02 -->
+          <fieldset class="card form-section" aria-describedby="servicios-hint servicios-error">
+            <legend class="form-legend"><span class="form-num" aria-hidden="true">02</span> Qué necesitas</legend>
+            <p class="form-hint" id="servicios-hint">Puedes elegir varias.</p>
+
+            <div class="options options--grid" id="servicios-options">
+              <label class="option"><input type="checkbox" name="servicios" value="Página web" /><span class="option-mark" aria-hidden="true"></span>Página web</label>
+              <label class="option"><input type="checkbox" name="servicios" value="Software o app a medida" /><span class="option-mark" aria-hidden="true"></span>Software o app a medida</label>
+              <label class="option"><input type="checkbox" name="servicios" value="Chatbot de Redes Sociales" /><span class="option-mark" aria-hidden="true"></span>Chatbot de Redes Sociales</label>
+              <label class="option"><input type="checkbox" name="servicios" value="Automatización con IA" /><span class="option-mark" aria-hidden="true"></span>Automatización con IA</label>
+              <label class="option"><input type="checkbox" name="servicios" value="Integración con CRM" /><span class="option-mark" aria-hidden="true"></span>Integración con CRM</label>
+              <label class="option"><input type="checkbox" name="servicios" value="Tarjetas NFC de reseñas" /><span class="option-mark" aria-hidden="true"></span>Tarjetas NFC de reseñas</label>
+              <label class="option"><input type="checkbox" name="servicios" value="No sé todavía, necesito orientación" /><span class="option-mark" aria-hidden="true"></span>No sé todavía, necesito orientación</label>
+            </div>
+            <p class="field-error group-error" id="servicios-error" aria-live="polite"></p>
+          </fieldset>
+
+          <!-- 03 -->
+          <fieldset class="card form-section" aria-describedby="punto-error">
+            <legend class="form-legend"><span class="form-num" aria-hidden="true">03</span> Dónde estás hoy</legend>
+
+            <div class="options" id="punto-options">
+              <label class="option"><input type="radio" name="punto" value="Todavía no tengo nada" /><span class="option-mark" aria-hidden="true"></span>Todavía no tengo nada</label>
+              <label class="option"><input type="radio" name="punto" value="Tengo página pero no me funciona" /><span class="option-mark" aria-hidden="true"></span>Tengo página pero no me funciona</label>
+              <label class="option"><input type="radio" name="punto" value="Ya uso algo y quiero mejorarlo" /><span class="option-mark" aria-hidden="true"></span>Ya uso algo y quiero mejorarlo</label>
+            </div>
+            <p class="field-error group-error" id="punto-error" aria-live="polite"></p>
+          </fieldset>
+
+          <!-- 04 -->
+          <div class="card form-section">
+            <h2 class="form-legend"><span class="form-num" aria-hidden="true">04</span> Presupuesto y tiempo</h2>
+
+            <fieldset class="form-group" aria-describedby="presupuesto-error">
+              <legend class="form-sub">¿Cuánto tienes pensado invertir?</legend>
+              <div class="options options--grid" id="presupuesto-options">
+                <label class="option"><input type="radio" name="presupuesto" value="De $2,500 a $7,000 MXN" /><span class="option-mark" aria-hidden="true"></span>De $2,500 a $7,000 MXN</label>
+                <label class="option"><input type="radio" name="presupuesto" value="De $7,000 a $16,000 MXN" /><span class="option-mark" aria-hidden="true"></span>De $7,000 a $16,000 MXN</label>
+                <label class="option"><input type="radio" name="presupuesto" value="Más de $16,000 MXN" /><span class="option-mark" aria-hidden="true"></span>Más de $16,000 MXN</label>
+                <label class="option"><input type="radio" name="presupuesto" value="Aún no lo tengo claro, quiero que me orienten" /><span class="option-mark" aria-hidden="true"></span>Aún no lo tengo claro, quiero que me orienten</label>
+              </div>
+              <p class="field-error group-error" id="presupuesto-error" aria-live="polite"></p>
+            </fieldset>
+
+            <fieldset class="form-group" aria-describedby="tiempo-error">
+              <legend class="form-sub">¿Cuándo lo quieres funcionando?</legend>
+              <div class="options options--grid" id="tiempo-options">
+                <label class="option"><input type="radio" name="tiempo" value="Lo antes posible" /><span class="option-mark" aria-hidden="true"></span>Lo antes posible</label>
+                <label class="option"><input type="radio" name="tiempo" value="En 1 mes" /><span class="option-mark" aria-hidden="true"></span>En 1 mes</label>
+                <label class="option"><input type="radio" name="tiempo" value="En 2 o 3 meses" /><span class="option-mark" aria-hidden="true"></span>En 2 o 3 meses</label>
+                <label class="option"><input type="radio" name="tiempo" value="Sin prisa" /><span class="option-mark" aria-hidden="true"></span>Sin prisa</label>
+              </div>
+              <p class="field-error group-error" id="tiempo-error" aria-live="polite"></p>
+            </fieldset>
+          </div>
+
+          <!-- 05 -->
+          <fieldset class="card form-section">
+            <legend class="form-legend"><span class="form-num" aria-hidden="true">05</span> Cuéntame</legend>
+
+            <div class="field">
+              <label class="field-label" for="objetivo">¿Qué quieres lograr con tu negocio?</label>
+              <textarea class="field-input" id="objetivo" name="objetivo" rows="4" required placeholder="Ej. Que más clientes reserven por WhatsApp sin que yo tenga que contestar a cada rato." aria-describedby="objetivo-error"></textarea>
+              <p class="field-error" id="objetivo-error" aria-live="polite"></p>
+            </div>
+
+            <div class="field">
+              <label class="field-label" for="origen">¿Cómo supiste de Astro? <span class="field-optional">(opcional)</span></label>
+              <input class="field-input" type="text" id="origen" name="origen" placeholder="Instagram, una recomendación, Google…" />
+            </div>
+          </fieldset>
+
+          <!-- Honeypot: los humanos no lo ven -->
+          <div class="hp" aria-hidden="true">
+            <label for="botcheck">No llenes este campo</label>
+            <input type="text" id="botcheck" name="botcheck" tabindex="-1" autocomplete="off" />
+          </div>
+
+          <div class="pricing-note-box submit-error" id="submitError" role="alert" hidden>
+            <p class="pricing-note-box-title">No se pudo enviar</p>
+            <p id="submitErrorText">Revisa tu conexión e inténtalo de nuevo, o escríbeme directo por WhatsApp. Lo que llenaste sigue aquí.</p>
+            <a class="btn btn-secondary" id="errorWhatsapp" href="#" target="_blank" rel="noopener noreferrer">Escribirme por WhatsApp</a>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary" id="submitBtn">
+              <span class="btn-label">Enviar solicitud</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 5l7 7-7 7"/></svg>
+            </button>
+            <p class="form-privacy">Tus datos solo los uso para responderte.</p>
+          </div>
+        </form>
+
+        <aside class="card summary" id="summary" aria-labelledby="summary-title">
+          <h2 class="summary-title" id="summary-title">Tu resumen</h2>
+          <dl class="summary-list" aria-live="polite">
+            <div class="summary-item">
+              <dt>Servicio</dt>
+              <dd class="is-empty" data-summary="servicios">Sin responder</dd>
+            </div>
+            <div class="summary-item">
+              <dt>Punto de partida</dt>
+              <dd class="is-empty" data-summary="punto">Sin responder</dd>
+            </div>
+            <div class="summary-item">
+              <dt>Presupuesto</dt>
+              <dd class="is-empty" data-summary="presupuesto">Sin responder</dd>
+            </div>
+            <div class="summary-item">
+              <dt>Tiempo</dt>
+              <dd class="is-empty" data-summary="tiempo">Sin responder</dd>
+            </div>
+          </dl>
+          <span class="summary-progress-label" id="progressLabel" aria-live="polite">0 de 6 respondidas</span>
+          <div class="summary-bar" role="progressbar" aria-labelledby="progressLabel" aria-valuemin="0" aria-valuemax="6" aria-valuenow="0" id="progressBar">
+            <div class="summary-bar-fill" id="progressFill"></div>
+          </div>
+        </aside>
+      </div>
+
+      <section class="card success" id="success" tabindex="-1" aria-labelledby="success-title" hidden>
+        <div class="success-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        </div>
+        <h2 class="success-title" id="success-title">Listo, recibí tu solicitud.</h2>
+        <p class="success-text">Te escribo por WhatsApp en menos de 24 horas.</p>
+        <div class="success-actions">
+          <a class="btn btn-primary" id="calendarBtn" href="https://calendar.app.google/isoHAyYLjibSVk5j6" target="_blank" rel="noopener noreferrer">
+            Agendar llamada de exploración
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 5l7 7-7 7"/></svg>
+          </a>
+          <a class="btn btn-secondary" id="successWhatsapp" href="#" target="_blank" rel="noopener noreferrer">Escribirme por WhatsApp</a>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+  <footer class="footer on-dark">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <a href="/" class="nav-logo" aria-label="Astro — inicio">
+            <img
+              class="nav-logo-img"
+              src="assets/astro-logo-icon.png"
+              width="243"
+              height="225"
+              alt="Logo Astro"
+              decoding="async"
+            />
+          </a>
+          <p class="footer-tagline">Agencia de soluciones digitales potenciada por Agentes de IA privados.</p>
+        </div>
+
+        <div class="footer-links">
+          <div class="footer-col">
+            <span class="footer-col-title">Producto</span>
+            <a href="/#pricing">Servicios</a>
+            <a href="/catalogo.html">Catálogo</a>
+            <a href="/empezar.html">Empezar proyecto</a>
+          </div>
+          <div class="footer-col">
+            <span class="footer-col-title">Empresa</span>
+            <a href="/#faq">Preguntas</a>
+            <a href="/#cta">Contacto</a>
+            <a href="/#hero">Nosotros</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p class="footer-copy">&copy; 2026 Astro Agency. Todos los derechos reservados. </p>
+        <div class="footer-social">
+          <a href="https://www.linkedin.com/in/jasonfloresastroautomations" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn — perfil de Jason Flores">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 3a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h14zM8.34 18.34V10.5H5.67v7.84h2.67zM7 9.32a1.55 1.55 0 100-3.1 1.55 1.55 0 000 3.1zm11.34 9.02v-4.3c0-2.3-1.23-3.37-2.87-3.37a2.48 2.48 0 00-2.25 1.24V10.5H10.5c.04.75 0 7.84 0 7.84h2.72v-4.38c0-.24.02-.49.09-.66.2-.49.64-.99 1.39-.99.98 0 1.37.75 1.37 1.84v4.19h2.27z"/></svg>
+          </a>
+          <a href="https://www.instagram.com/byastro.mx/" target="_blank" rel="noopener noreferrer" aria-label="Instagram — @byastro.mx">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          </a>
+          <a href="https://wa.me/526691520390" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp — escribir al 669 152 0390">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.435 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="empezar.js" defer></script>
+</body>
+</html>

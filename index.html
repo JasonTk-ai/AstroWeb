@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Astro crea agentes de IA privados que automatizan tus operaciones de punta a punta. Implementación en 14 días. Entrenados con tu negocio. Sin chatbots genéricos." />
+  <meta property="og:title" content="Astro — Agencia de desarrollo de software y web" />
+  <meta property="og:description" content="Diseñamos, entrenamos e implementamos agentes de IA que funcionan como una extensión de tu equipo. Entrega en 14 días. Propiedad de por vida." />
+  <meta property="og:type" content="website" />
+  <title>Astro — Agencia de desarrollo de software y web</title>
+  <link rel="canonical" href="https://byastro.lat/" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/favicon-192.png" />
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
+  <meta name="theme-color" content="#030509" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" />
+  <link rel="stylesheet" href="astro.css?v=2026-11-05" />
+  <link rel="stylesheet" href="secciones.css?v=2026-11-05b" />
+
+  <script>
+    (function () {
+      var t;
+      try { t = localStorage.getItem('theme'); } catch (e) {}
+      if (t !== 'light' && t !== 'dark') {
+        t = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+    // La página siempre arranca arriba (el intro empieza en el hero)
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    // Si el navegador la restaura desde caché (atrás/adelante), recarga para repetir el intro
+    window.addEventListener('pageshow', function (e) { if (e.persisted) location.reload(); });
+  </script>
+  <style>
+    /* Estilos propios de la página de inicio. Tokens, base, botones, nav y footer en astro.css */
+
+    html { scroll-snap-type: y proximity; }
+
+    /* ==========================================================
+       INTRO (logo que viaja al nav)
+       ========================================================== */
+    .intro {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+    }
+
+    body.is-intro { overflow: hidden; }
+    body.is-intro .nav { opacity: 0; pointer-events: none; }
+    body.is-intro .hero-content { opacity: 0; }
+
+    .intro:not(.is-playing),
+    .intro:not(.is-playing) *,
+    .intro:not(.is-playing) *::before,
+    .intro:not(.is-playing) *::after { animation-play-state: paused !important; }
+
+    .hero-logo {
+      position: relative;
+      width: min(76vw, 760px);
+      aspect-ratio: 917 / 225;
+      animation: astro-logo-halo 1.6s 2.2s var(--ease) both;
+    }
+
+    .hero-logo img {
+      position: absolute;
+      top: 0;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .hero-logo-icon {
+      left: 0;
+      width: 26.499%;
+      animation: astro-logo-wipe 1s 0.3s var(--ease) both, astro-logo-rise 1s 0.3s var(--ease) both;
+    }
+
+    .hero-logo-word {
+      left: 33.915%;
+      width: 66.085%;
+      animation: astro-logo-reveal 1.3s 1.15s var(--ease) both;
+    }
+
+    .hero-logo-flare {
+      position: absolute;
+      top: 76%;
+      left: calc(26.499% * 0.79);
+      width: 14%;
+      aspect-ratio: 1;
+      translate: -50% -50%;
+      pointer-events: none;
+      opacity: 0;
+      background: radial-gradient(circle, #fff 0, #fff6 18%, transparent 62%);
+      animation: astro-logo-flare 1.2s 1.05s var(--ease) both;
+    }
+
+    .hero-logo-flare::before,
+    .hero-logo-flare::after {
+      position: absolute;
+      top: 50%;
+      inset-inline: 0;
+      height: 2px;
+      content: "";
+      background: linear-gradient(90deg, transparent, #fff, transparent);
+      scale: 1.9 1;
+    }
+
+    .hero-logo-flare::after { rotate: 90deg; }
+
+    @keyframes astro-logo-wipe {
+      from { clip-path: inset(0 100% 0 0); }
+      to { clip-path: inset(0 0 0 0); }
+    }
+
+    @keyframes astro-logo-rise {
+      from { translate: -14px 10px; opacity: 0; }
+      to { translate: 0 0; opacity: 1; }
+    }
+
+    @keyframes astro-logo-reveal {
+      from { clip-path: inset(0 100% 0 0); filter: blur(10px); translate: -18px 0; opacity: 0; }
+      60% { opacity: 1; }
+      to { clip-path: inset(0 0 0 0); filter: blur(0); translate: 0 0; opacity: 1; }
+    }
+
+    @keyframes astro-logo-flare {
+      0% { opacity: 0; scale: 0.2; rotate: 0deg; }
+      35% { opacity: 1; scale: 1.25; }
+      100% { opacity: 0; scale: 2.2; rotate: 45deg; }
+    }
+
+    @keyframes astro-logo-halo {
+      0% { filter: drop-shadow(0 0 0 #fff0); }
+      40% { filter: drop-shadow(0 0 22px #ffffff55); }
+      100% { filter: drop-shadow(0 0 10px #ffffff1f); }
+    }
+
+    /* ==========================================================
+       HERO — siempre oscuro, con el fluido WebGL detrás
+       ========================================================== */
+    .hero {
+      position: relative;
+      isolation: isolate;
+      min-height: 100vh;
+      min-height: 100svh;
+      display: flex;
+      align-items: center;
+      padding: calc(var(--nav-h) + var(--s-4)) 0 var(--s-8);
+      background: var(--c-black);
+      color: #ffffff;
+      overflow: hidden;
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+    }
+
+    .hero-fluid {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      display: block;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity 2.4s var(--ease);
+    }
+
+    .hero-fluid.is-ready { opacity: 1; }
+
+    .hero-fluid.is-fallback {
+      background: radial-gradient(ellipse at 70% 45%, #2D7D8A 0%, #0b2730 35%, #030509 75%);
+    }
+
+    /* Velo radial muy sutil detrás del texto, sin cajas */
+    .hero-veil {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background: radial-gradient(ellipse 60% 65% at 24% 52%, rgba(3, 5, 9, 0.55) 0%, rgba(3, 5, 9, 0.28) 45%, rgba(3, 5, 9, 0) 75%);
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-content {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--s-3);
+    }
+
+    .hero-title {
+      max-width: 13ch;
+      font-size: var(--fs-display);
+      font-weight: 400;
+      line-height: 1.02;
+      letter-spacing: var(--tracking-tight);
+      color: #ffffff;
+      text-wrap: balance;
+    }
+
+    .hero-title-soft { color: rgba(232, 236, 244, 0.6); }
+
+    .hero-sub {
+      max-width: 34rem;
+      font-size: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem);
+      line-height: 1.55;
+      color: rgba(232, 236, 244, 0.72);
+    }
+
+    .hero-actions { margin-top: var(--s-2); }
+
+    /* Pantallas verticales: la estrella vive abajo (ver astro-fluid.js, aspect < 0.9),
+       así que el texto sube para que nunca quede tapado. */
+    @media (max-aspect-ratio: 9/10) {
+      .hero {
+        align-items: flex-start;
+        padding-top: calc(var(--nav-h) + clamp(32px, 9svh, 120px));
+      }
+      .hero-veil {
+        background: radial-gradient(ellipse 110% 55% at 30% 30%, rgba(3, 5, 9, 0.55) 0%, rgba(3, 5, 9, 0.25) 50%, rgba(3, 5, 9, 0) 80%);
+      }
+    }
+
+    /* Cursor propio, solo dentro del hero y con puntero fino */
+    .hero-cursor { display: none; }
+
+    @media (pointer: fine) {
+      .hero,
+      .hero * { cursor: none; }
+
+      .hero-cursor {
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 3;
+        width: 8px;
+        height: 8px;
+        margin: -4px 0 0 -4px;
+        border-radius: 50%;
+        background: #ffffff;
+        mix-blend-mode: difference;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity var(--dur-fast) var(--ease), scale var(--dur-fast) var(--ease);
+      }
+
+      .hero-cursor.is-visible { opacity: 1; }
+      .hero-cursor.is-active { scale: 4; }
+    }
+
+    /* ==========================================================
+       MARQUESINA — especialidades debajo del hero
+       ========================================================== */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .marquee {
+      position: relative;
+      overflow: hidden;
+      padding: var(--s-3) 0;
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+      mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+    }
+
+    .marquee-track {
+      display: flex;
+      width: max-content;
+      animation: marquee 40s linear infinite;
+    }
+
+    .marquee:hover .marquee-track { animation-play-state: paused; }
+
+    .marquee-group {
+      display: flex;
+      align-items: center;
+      gap: var(--s-8);
+      padding-right: var(--s-8);
+      list-style: none;
+    }
+
+    .marquee-item {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--s-8);
+      font-size: var(--fs-xs);
+      font-weight: 500;
+      letter-spacing: var(--tracking-label);
+      text-transform: uppercase;
+      white-space: nowrap;
+      color: var(--text-2);
+    }
+
+    /* Separador: estrella de 4 puntas, como el destello del logo de Astro */
+    .marquee-item::after {
+      content: "";
+      flex-shrink: 0;
+      width: 8px;
+      height: 8px;
+      background: var(--accent);
+      clip-path: polygon(50% 0, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0 50%, 39% 39%);
+    }
+
+    @keyframes marquee {
+      to { transform: translateX(-50%); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .marquee { -webkit-mask-image: none; mask-image: none; }
+      .marquee-track { width: 100%; animation: none; }
+      .marquee-group { flex-wrap: wrap; justify-content: center; gap: var(--s-2) var(--s-4); padding: 0 var(--s-3); width: 100%; }
+      .marquee-group + .marquee-group,
+      .marquee-group .marquee-item:nth-child(n + 6) { display: none; }
+      .marquee-item { gap: var(--s-4); }
+    }
+
+    /* ==========================================================
+       FAQ — lista con divisores
+       ========================================================== */
+    .faq-list {
+      max-width: 760px;
+      margin: 0 auto;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* Banda de color que resalta toda la sección de preguntas */
+    /* Misma familia de grises que los recuadros (--panel-bg) y el footer:
+       un escalón entre el fondo de la página y los recuadros, sin tinte de color. */
+    :root {
+      --faq-band-bg: #F1F2F4;
+      --faq-band-border: rgba(10, 12, 16, 0.08);
+    }
+
+    :root[data-theme="dark"] {
+      --faq-band-bg: #12151B;
+      --faq-band-border: rgba(232, 236, 244, 0.10);
+    }
+
+    #faq {
+      background: var(--faq-band-bg);
+      border-top: 1px solid var(--faq-band-border);
+      border-bottom: 1px solid var(--faq-band-border);
+    }
+
+    #faq .faq-item { border-top-color: var(--faq-band-border); }
+
+    .faq-item { border-top: 1px solid var(--border); }
+
+    .faq-trigger {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--s-2);
+      padding: var(--s-3) 0;
+      text-align: left;
+      font-size: 1.125rem;
+      font-weight: 400;
+      letter-spacing: -0.01em;
+      color: var(--text);
+    }
+
+    .faq-icon {
+      position: relative;
+      flex-shrink: 0;
+      width: 24px;
+      height: 24px;
+    }
+
+    .faq-icon::before,
+    .faq-icon::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 12px;
+      height: 1px;
+      background: currentColor;
+      transform: translate(-50%, -50%);
+      transition: transform var(--dur-fast) var(--ease);
+    }
+
+    .faq-icon::after { transform: translate(-50%, -50%) rotate(90deg); }
+    .faq-item.is-open .faq-icon::after { transform: translate(-50%, -50%) rotate(0deg); }
+
+    .faq-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height var(--dur) var(--ease);
+    }
+
+    .faq-body-inner {
+      max-width: 64ch;
+      padding: 0 0 var(--s-3);
+      font-size: var(--fs-md);
+      line-height: 1.65;
+      color: var(--text-2);
+    }
+
+    /* Servicios: vacía por ahora, no deja hueco */
+    .section--services:empty { padding: 0; }
+  </style>
+</head>
+<body class="is-intro">
+
+  <!-- ============================================================
+       NAVIGATION
+       ============================================================ -->
+  <header class="nav on-dark" id="nav">
+    <div class="container nav-inner">
+      <a href="#hero" class="nav-logo" aria-label="Astro — inicio">
+        <img
+          class="nav-logo-img"
+          src="assets/astro-logo-icon.png"
+          width="243"
+          height="225"
+          alt="Logo Astro"
+          decoding="async"
+        />
+      </a>
+
+      <nav class="nav-links" aria-label="Principal">
+        <a href="#pricing" class="nav-link" data-scroll>Servicios</a>
+        <a href="/catalogo.html" class="nav-link">Catálogo</a>
+        <a href="#faq" class="nav-link" data-scroll>Preguntas</a>
+      </nav>
+
+      <div class="nav-actions">
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Cambiar a tema oscuro" aria-pressed="false">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+      </button>
+
+      <a href="/empezar.html" class="btn btn-primary nav-cta">
+        Empezar proyecto
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M5 12h14" />
+          <path d="M13 5l7 7-7 7" />
+        </svg>
+      </a>
+
+      <button class="nav-toggle" id="navToggle" aria-label="Abrir o cerrar menú" aria-expanded="false" aria-controls="mobileMenu">
+        <span class="nav-toggle-icon">
+          <span></span><span></span><span></span>
+        </span>
+      </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#pricing" data-scroll>Servicios</a>
+    <a href="/catalogo.html">Catálogo</a>
+    <a href="#faq" data-scroll>Preguntas</a>
+    <a href="/empezar.html" class="btn btn-primary">
+      Empezar proyecto
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 5l7 7-7 7"/></svg>
+    </a>
+  </div>
+
+  <main>
+
+    <!-- ============================================================
+         HERO
+         ============================================================ -->
+    <!-- INTRO: solo contiene el logo animado (viaja a la barra de nav) -->
+    <div class="intro" id="intro" aria-hidden="true">
+      <div class="hero-logo" id="introLogo">
+        <img class="hero-logo-icon" src="assets/astro-logo-icon.png" width="243" height="225" alt="" fetchpriority="high" />
+        <img class="hero-logo-word" src="assets/astro-logo-word.png" width="606" height="225" alt="" />
+        <span class="hero-logo-flare" aria-hidden="true"></span>
+      </div>
+    </div>
+
+    <!-- HERO REAL -->
+    <section class="hero on-dark" id="hero" aria-labelledby="hero-heading">
+      <canvas class="hero-fluid" id="heroFluid" aria-hidden="true"></canvas>
+      <div class="hero-veil" aria-hidden="true"></div>
+      <div class="container hero-inner hero-content">
+        <h1 class="hero-title" id="hero-heading">Desarrollo de software y web <span class="hero-title-soft">a medida</span></h1>
+        <p class="hero-sub">Diseñamos e implementamos lo que tu negocio necesita para atender mejor y trabajar menos a mano.</p>
+        <div class="hero-actions">
+          <a href="https://calendar.app.google/isoHAyYLjibSVk5j6" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+            Agenda una llamada
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+      <span class="hero-cursor" id="heroCursor" aria-hidden="true"></span>
+    </section>
+
+    <!-- ============================================================
+         MARQUESINA — especialidades
+         ============================================================ -->
+    <section class="marquee" aria-label="Especialidades">
+      <ul class="sr-only"><li>Sistemas a medida</li><li>Automatizaciones</li><li>Chatbots</li><li>E-commerce</li><li>Seguridad informática</li></ul>
+      <div class="marquee-track" aria-hidden="true">
+        <ul class="marquee-group"><li class="marquee-item">Sistemas a medida</li><li class="marquee-item">Automatizaciones</li><li class="marquee-item">Chatbots</li><li class="marquee-item">E-commerce</li><li class="marquee-item">Seguridad informática</li><li class="marquee-item">Sistemas a medida</li><li class="marquee-item">Automatizaciones</li><li class="marquee-item">Chatbots</li><li class="marquee-item">E-commerce</li><li class="marquee-item">Seguridad informática</li></ul>
+        <ul class="marquee-group"><li class="marquee-item">Sistemas a medida</li><li class="marquee-item">Automatizaciones</li><li class="marquee-item">Chatbots</li><li class="marquee-item">E-commerce</li><li class="marquee-item">Seguridad informática</li><li class="marquee-item">Sistemas a medida</li><li class="marquee-item">Automatizaciones</li><li class="marquee-item">Chatbots</li><li class="marquee-item">E-commerce</li><li class="marquee-item">Seguridad informática</li></ul>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SERVICIOS — sección vacía (el catálogo vive en catalogo.html)
+         ============================================================ -->
+    <section class="section section--services" id="pricing" aria-label="Servicios"><!-- contenido pendiente --></section>
+
+    <hr class="divider" />
+
+    <!-- ============================================================
+         FAQ
+         ============================================================ -->
+    <section class="section" id="faq" aria-labelledby="faq-title">
+      <div class="container">
+        <header class="section-header">
+          <div class="eyebrow">Preguntas frecuentes</div>
+          <h2 class="section-title" id="faq-title">Preguntas que <em>siempre</em> surgen</h2>
+        </header>
+
+        <div class="faq-list">
+          <div class="faq-item js-anim" data-anim-card>
+            <button class="faq-trigger" aria-expanded="false">
+              <span>¿En qué se diferencia Astro de otras agencias?</span>
+              <span class="faq-icon" aria-hidden="true"></span>
+            </button>
+            <div class="faq-body">
+              <div class="faq-body-inner">
+                Combinamos desarrollo web con automatización e inteligencia artificial desde el primer día, no como un extra. Eso significa que tu negocio puede tener un chatbot que responde clientes a las 3am, un flujo que agenda citas solo, o un sistema que reduce el trabajo manual de tu equipo — todo integrado, no parcheado.
+Además, somos locales. Conocemos el mercado de Sinaloa, hablamos el mismo idioma que tus clientes y estamos disponibles cuando nos necesitas, sin intermediarios ni diferencias de horario.
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item js-anim" data-anim-card>
+            <button class="faq-trigger" aria-expanded="false">
+              <span>¿Mis datos están seguros?</span>
+              <span class="faq-icon" aria-hidden="true"></span>
+            </button>
+            <div class="faq-body">
+              <div class="faq-body-inner">
+                Sí. Tus datos viven en la infraestructura de Astro. Nada sale de ahi. En Astro contamos con soporte para despliegues listos con SOC 2, SSO y bitácora de auditoría completa para empresas que requieren cumplir con la normativa.
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item js-anim" data-anim-card>
+            <button class="faq-trigger" aria-expanded="false">
+              <span>¿De verdad pueden entregar en 14 días?</span>
+              <span class="faq-icon" aria-hidden="true"></span>
+            </button>
+            <div class="faq-body">
+              <div class="faq-body-inner">
+                Sí, . Los proyectos corporativos son los unicos que pueden tardar hasta 4-6 semanas según la complejidad de integraciones. Antes de comenzar el proyecto se establece una fecha firme ante contrato.
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item js-anim" data-anim-card>
+            <button class="faq-trigger" aria-expanded="false">
+              <span>¿Con qué herramientas se integran?</span>
+              <span class="faq-icon" aria-hidden="true"></span>
+            </button>
+            <div class="faq-body">
+              <div class="faq-body-inner">
+                Con cualquier cosa que tenga API. Lo común: Whatssap, Instagram, Facebook, Messenger, Notion, Slack, Shopify, Google calendar, Excel  y herramientas internas a la medida. Aún no encontramos un stack al que no podamos conectarnos.
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item js-anim" data-anim-card>
+            <button class="faq-trigger" aria-expanded="false">
+              <span>¿Qué pasa cuando me entregan el proyecto?</span>
+              <span class="faq-icon" aria-hidden="true"></span>
+            </button>
+            <div class="faq-body">
+              <div class="faq-body-inner">
+                Recibes el proyecto funcionando, documentado y con 60 días de soporte incluido. Nada queda en una caja negra — sabes cómo funciona todo. Y si en algún momento quieres migrar a tu propia infraestructura, te acompañamos en ese proceso.
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         CTA BANNER
+         ============================================================ -->
+    <section class="section" id="cta" aria-labelledby="cta-title">
+      <div class="container">
+        <div class="cta-banner cta-contact on-dark">
+          <div class="cta-contact-main">
+            <div class="eyebrow">Empecemos por tu negocio</div>
+            <h2 class="cta-banner-title" id="cta-title">Cuéntame tu idea <em>y yo la construyo.</em></h2>
+            <p class="cta-banner-subtitle">Una página, un chatbot o un sistema que te quite trabajo. Escríbeme y te digo cómo lo haría, sin compromiso.</p>
+          </div>
+
+          <div class="cta-contact-side">
+            <a href="https://wa.me/526691520390?text=Hola%2C%20vi%20su%20p%C3%A1gina%20y%20me%20gustar%C3%ADa%20m%C3%A1s%20informaci%C3%B3n." target="_blank" rel="noopener noreferrer" class="btn btn-primary cta-contact-btn">
+              Hablemos por WhatsApp
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 5l7 7-7 7"/></svg>
+            </a>
+            <a href="https://calendar.app.google/isoHAyYLjibSVk5j6" target="_blank" rel="noopener noreferrer" class="cta-contact-link">Agendar una llamada</a>
+            <p class="cta-contact-phone"><a href="tel:+526691520390">669 152 0390</a></p>
+            <p class="cta-contact-note">Desde Mazatlán, Sinaloa.</p>
+            <div class="cta-contact-social">
+              <a class="cta-chip" href="https://www.instagram.com/byastro.mx/" target="_blank" rel="noopener noreferrer">
+                <span class="cta-chip-name">Instagram</span>
+                <span class="cta-chip-handle">@byastro.mx</span>
+              </a>
+              <a class="cta-chip" href="https://www.linkedin.com/in/jasonfloresastroautomations" target="_blank" rel="noopener noreferrer">
+                <span class="cta-chip-name">LinkedIn</span>
+                <span class="cta-chip-handle">Jason Flores</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+  <footer class="footer on-dark">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <a href="#hero" class="nav-logo" aria-label="Astro — inicio">
+            <img
+              class="nav-logo-img"
+              src="assets/astro-logo-icon.png"
+              width="243"
+              height="225"
+              alt="Logo Astro"
+              decoding="async"
+            />
+          </a>
+          <p class="footer-tagline">Agencia de soluciones digitales potenciada por Agentes de IA privados.</p>
+        </div>
+
+        <div class="footer-links">
+          <div class="footer-col">
+            <span class="footer-col-title">Producto</span>
+            <a href="#pricing" data-scroll>Servicios</a>
+            <a href="/catalogo.html">Catálogo</a>
+            <a href="/empezar.html">Empezar proyecto</a>
+          </div>
+          <div class="footer-col">
+            <span class="footer-col-title">Empresa</span>
+            <a href="#faq" data-scroll>Preguntas</a>
+            <a href="#cta" data-scroll>Contacto</a>
+            <a href="#hero" data-scroll>Nosotros</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p class="footer-copy">&copy; 2026 Astro Agency. Todos los derechos reservados. </p>
+        <div class="footer-social">
+          <a href="https://www.linkedin.com/in/jasonfloresastroautomations" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn — perfil de Jason Flores">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 3a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h14zM8.34 18.34V10.5H5.67v7.84h2.67zM7 9.32a1.55 1.55 0 100-3.1 1.55 1.55 0 000 3.1zm11.34 9.02v-4.3c0-2.3-1.23-3.37-2.87-3.37a2.48 2.48 0 00-2.25 1.24V10.5H10.5c.04.75 0 7.84 0 7.84h2.72v-4.38c0-.24.02-.49.09-.66.2-.49.64-.99 1.39-.99.98 0 1.37.75 1.37 1.84v4.19h2.27z"/></svg>
+          </a>
+          <a href="https://www.instagram.com/byastro.mx/" target="_blank" rel="noopener noreferrer" aria-label="Instagram — @byastro.mx">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          </a>
+          <a href="https://wa.me/526691520390" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp — escribir al 669 152 0390">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.435 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <a class="wa-float" id="waFloat" href="https://wa.me/526691520390?text=Hola%2C%20vi%20su%20p%C3%A1gina%20y%20me%20gustar%C3%ADa%20m%C3%A1s%20informaci%C3%B3n." target="_blank" rel="noopener noreferrer" aria-label="Escríbenos por WhatsApp al 669 152 0390" tabindex="-1">
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.435 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    WhatsApp
+  </a>
+
+  <!-- ============================================================
+       GSAP — cdnjs
+       ============================================================ -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+  <script src="astro-fluid.js"></script>
+
+  <script>
+    (function () {
+      'use strict';
+
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      // Única curva del sitio: expo.out de GSAP = cubic-bezier(0.19, 1, 0.22, 1) (var(--ease) en CSS)
+      const EASE = 'expo.out';
+
+      // Logo de navegación/footer: recarga la página y repite la animación inicial
+      // Sube al inicio al instante (html tiene scroll-behavior: smooth)
+      const jumpTop = () => {
+        const root = document.documentElement;
+        root.style.scrollBehavior = 'auto';
+        window.scrollTo(0, 0);
+        root.style.scrollBehavior = '';
+      };
+      document.querySelectorAll('.nav-logo').forEach((logo) => {
+        logo.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopImmediatePropagation();
+          jumpTop();
+          if (location.hash) location.replace(location.pathname + location.search);
+          else location.reload();
+        });
+      });
+
+      // ================================================================
+      // HERO FLUIDO (WebGL) — arranca al terminar el intro, con fade
+      // ================================================================
+      const fluidCanvas = document.getElementById('heroFluid');
+      let fluidStarted = false;
+      const startFluid = () => {
+        if (fluidStarted || !fluidCanvas) return;
+        fluidStarted = true;
+        try {
+          if (window.AstroFluid) AstroFluid.init(fluidCanvas, { palette: 'aurora' });
+          else fluidCanvas.classList.add('is-fallback');
+        } catch (err) {
+          fluidCanvas.classList.add('is-fallback');
+        }
+        requestAnimationFrame(() => fluidCanvas.classList.add('is-ready'));
+      };
+
+      // ================================================================
+      // INTRO -> NAV
+      // ================================================================
+      const intro = document.getElementById('intro');
+      const endIntro = () => {
+        if (intro) intro.remove();
+        document.body.classList.remove('is-intro');
+        document.querySelectorAll('.hero-content, .hero-content > *').forEach((el) => {
+          el.style.opacity = '1';
+          el.style.transform = 'none';
+        });
+        startFluid();
+      };
+
+      if (reduceMotion || !window.gsap) {
+        endIntro();
+      } else {
+        try {
+          jumpTop();
+          const icon = intro.querySelector('.hero-logo-icon');
+          const word = intro.querySelector('.hero-logo-word');
+          const navImg = document.querySelector('.nav .nav-logo-img');
+
+          gsap.set('.hero-content > *', { opacity: 0, y: 24 });
+          gsap.set('.hero-content', { opacity: 1 });
+
+          // Espera a que las imágenes estén listas para que la primera parte de la animación se vea completa
+          const imgs = Array.from(intro.querySelectorAll('img')).concat(navImg ? [navImg] : []);
+          const ready = Promise.all(imgs.map((i) => (i.decode ? i.decode().catch(() => {}) : Promise.resolve())));
+          const timeout = new Promise((r) => setTimeout(r, 2500));
+
+          Promise.race([ready, timeout]).then(() => {
+            intro.classList.add('is-playing');
+
+            // Cuando termina la animación original, empieza la salida
+            gsap.delayedCall(4.2, () => {
+              try {
+                icon.style.animation = 'none';
+                word.style.animation = 'none';
+
+                const a = icon.getBoundingClientRect();
+                const b = navImg.getBoundingClientRect();
+                const scale = b.height / a.height;
+                const dx = (b.left + b.width / 2) - (a.left + a.width / 2);
+                const dy = (b.top + b.height / 2) - (a.top + a.height / 2);
+
+                gsap.timeline({ onComplete: endIntro })
+                  .to(word, { opacity: 0, x: -30, filter: 'blur(10px)', duration: 1.3, ease: EASE })
+                  .to(icon, { x: dx, y: dy, scale: scale, duration: 1.8, ease: EASE }, '-=0.6')
+                  .add(() => document.body.classList.remove('is-intro'), '-=0.9')
+                  .to(icon, { opacity: 0, duration: 0.5, ease: EASE }, '>-0.3')
+                  .add(startFluid, '<')
+                  .to('.hero-content > *', { opacity: 1, y: 0, stagger: 0.14, duration: 1.4, ease: EASE }, '<');
+              } catch (err) { endIntro(); }
+            });
+          });
+        } catch (err) {
+          endIntro();
+        }
+      }
+
+      // ================================================================
+      // NAV: fondo al hacer scroll + tono claro mientras está sobre el hero
+      // ================================================================
+      const nav = document.getElementById('nav');
+      const hero = document.getElementById('hero');
+      const onScroll = () => {
+        const y = window.scrollY;
+        nav.classList.toggle('is-scrolled', y > 24);
+        nav.classList.toggle('on-dark', !!hero && y < hero.offsetHeight - nav.offsetHeight / 2);
+      };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll, { passive: true });
+      onScroll();
+
+      // ================================================================
+      // CURSOR DEL HERO (solo puntero fino)
+      // ================================================================
+      const cursor = document.getElementById('heroCursor');
+      if (cursor && hero && window.matchMedia('(pointer: fine)').matches) {
+        hero.addEventListener('pointermove', (e) => {
+          const r = hero.getBoundingClientRect();
+          cursor.style.transform = `translate3d(${e.clientX - r.left}px, ${e.clientY - r.top}px, 0)`;
+          cursor.classList.add('is-visible');
+          cursor.classList.toggle('is-active', !!e.target.closest('a, button'));
+        }, { passive: true });
+        hero.addEventListener('pointerleave', () => cursor.classList.remove('is-visible'));
+      }
+
+      // ================================================================
+      // MOBILE MENU
+      // ================================================================
+      const navToggle = document.getElementById('navToggle');
+      const mobileMenu = document.getElementById('mobileMenu');
+      const closeMobileMenu = () => {
+        navToggle.classList.remove('is-open');
+        mobileMenu.classList.remove('is-open');
+        navToggle.setAttribute('aria-expanded', 'false');
+      };
+      navToggle.addEventListener('click', () => {
+        const isOpen = navToggle.classList.toggle('is-open');
+        mobileMenu.classList.toggle('is-open');
+        navToggle.setAttribute('aria-expanded', String(isOpen));
+      });
+
+      // ================================================================
+      // SMOOTH SCROLL
+      // ================================================================
+      document.querySelectorAll('[data-scroll]').forEach((link) => {
+        link.addEventListener('click', (e) => {
+          const href = link.getAttribute('href');
+          if (!href || !href.startsWith('#')) return;
+          const target = document.querySelector(href);
+          if (!target) return;
+          e.preventDefault();
+          closeMobileMenu();
+          if (reduceMotion || !window.gsap) {
+            target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+            return;
+          }
+          gsap.to(window, { duration: 1.2, scrollTo: { y: target, offsetY: 72 }, ease: EASE });
+        });
+      });
+
+      // ================================================================
+      // FAQ ACCORDION
+      // ================================================================
+      const faqItems = document.querySelectorAll('.faq-item');
+      faqItems.forEach((item) => {
+        const trigger = item.querySelector('.faq-trigger');
+        const body = item.querySelector('.faq-body');
+        trigger.addEventListener('click', () => {
+          const isOpen = item.classList.contains('is-open');
+          faqItems.forEach((other) => {
+            other.classList.remove('is-open');
+            other.querySelector('.faq-trigger').setAttribute('aria-expanded', 'false');
+            other.querySelector('.faq-body').style.maxHeight = '0px';
+          });
+          if (!isOpen) {
+            item.classList.add('is-open');
+            trigger.setAttribute('aria-expanded', 'true');
+            body.style.maxHeight = body.scrollHeight + 'px';
+          }
+        });
+      });
+
+      // ================================================================
+      // REDUCED MOTION / NO GSAP — early exit
+      // ================================================================
+      if (reduceMotion || !window.gsap) {
+        document.querySelectorAll('.js-anim').forEach((el) => {
+          el.style.opacity = '1';
+          el.style.transform = 'none';
+        });
+        return;
+      }
+
+      // ================================================================
+      // REVEALS AL HACER SCROLL
+      // ================================================================
+      gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+
+      const reveal = (targets, trigger, extra) => {
+        gsap.fromTo(targets,
+          { opacity: 0, y: 24 },
+          Object.assign({
+            opacity: 1,
+            y: 0,
+            duration: 1.4,
+            ease: EASE,
+            scrollTrigger: { trigger: trigger, start: 'top 88%', once: true },
+          }, extra || {})
+        );
+      };
+
+      gsap.utils.toArray('.section-header').forEach((el) => reveal(el, el));
+
+      const faqList = document.querySelector('.faq-list');
+      if (faqList) reveal(faqList.querySelectorAll('[data-anim-card]'), faqList, { stagger: 0.08 });
+
+      // Precios — una entrada por pantalla
+      document.querySelectorAll('.pricing-screen-inner[data-anim-card]').forEach((el) => reveal(el, el));
+
+      const ctaBanner = document.querySelector('.cta-banner');
+      if (ctaBanner) reveal(ctaBanner, ctaBanner);
+    })();
+
+    // BOTÓN FLOTANTE DE WHATSAPP — visible solo cuando el hero ya salió de pantalla
+    (function () {
+      const btn = document.getElementById('waFloat');
+      const hero = document.getElementById('hero');
+      if (!btn || !hero) return;
+      const setVisible = (on) => {
+        btn.classList.toggle('is-visible', on);
+        btn.tabIndex = on ? 0 : -1;
+      };
+      if (!('IntersectionObserver' in window)) { setVisible(true); return; }
+      new IntersectionObserver(([entry]) => setVisible(!entry.isIntersecting), { threshold: 0 }).observe(hero);
+    })();
+
+    // THEME TOGGLE
+    (function () {
+      const root = document.documentElement;
+      const btn = document.getElementById('themeToggle');
+      if (!btn) return;
+      const sync = () => {
+        const dark = root.getAttribute('data-theme') === 'dark';
+        btn.setAttribute('aria-pressed', String(dark));
+        btn.setAttribute('aria-label', dark ? 'Cambiar a tema claro' : 'Cambiar a tema oscuro');
+      };
+      sync();
+      btn.addEventListener('click', () => {
+        const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        root.setAttribute('data-theme', next);
+        try { localStorage.setItem('theme', next); } catch (e) {}
+        sync();
+      });
+    })();
+  </script>
+</body>
+</html>

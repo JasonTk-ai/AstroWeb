@@ -1,0 +1,667 @@
+/* ==========================================================================
+   Astro — sistema visual compartido (index.html + empezar.html)
+   Editorial y minimalista: Inter, mucho espacio, bordes de 1px, una sola curva.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   TOKENS
+   -------------------------------------------------------------------------- */
+:root {
+  /* Marca */
+  --c-black: #030509;
+  --c-ink: #0a0c10;
+  --c-charcoal: #111318;
+  --c-mint: #5FEAD4;
+  --c-sky: #7EC8E3;
+  --c-lavender: #B8C8F0;
+  --c-gray: #8892A4;
+  --c-mist: #E8ECF4;
+  --c-paper: #ffffff;
+  --c-paper-alt: #F4F5F7;
+  --c-teal: #1F6B77;   /* menta llevada a contraste AA sobre fondos claros */
+  --c-slate: #5B6474;  /* gris de marca llevado a contraste AA sobre fondos claros */
+  --c-graphite: #0A0C10;      /* negro de marca (= botones/--c-ink): recuadros y footer en tema claro */
+  --c-graphite-deep: #15181E; /* superficies dentro del grafito: un escalón más claro para separarlas */
+  --c-graphite-muted: #A3ABBA; /* texto tenue con contraste AA sobre grafito */
+
+  /* Footer — cierre de la página */
+  --footer-bg: var(--c-graphite);
+  --footer-border: transparent;
+  --footer-text-3: var(--c-graphite-muted);
+
+  /* Tema claro (por defecto) */
+  --bg: var(--c-paper);
+  --bg-alt: var(--c-paper-alt);
+  --surface: var(--c-paper);
+  --text: var(--c-ink);
+  --text-2: rgba(10, 12, 16, 0.72);
+  --text-3: var(--c-slate);
+  --accent: var(--c-teal);
+  --accent-soft: rgba(31, 107, 119, 0.06);
+  --on-accent: #ffffff;
+  --danger: #B42318;
+  --border: rgba(10, 12, 16, 0.08);
+  --border-strong: rgba(10, 12, 16, 0.16);
+  --nav-bg: rgba(255, 255, 255, 0.8);
+  --menu-bg: rgba(255, 255, 255, 0.97);
+  --btn-bg: var(--c-ink);
+  --btn-fg: #ffffff;
+  --logo-filter: invert(1);
+  color-scheme: light;
+
+  /* Tipografía — solo Inter */
+  --font: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --fs-display: clamp(2.5rem, 1.25rem + 5.2vw, 5rem);
+  --fs-h2: clamp(2rem, 1.25rem + 2.6vw, 3rem);
+  --fs-h3: clamp(1.75rem, 1.25rem + 1.8vw, 2.5rem);
+  --fs-lg: 1.25rem;
+  --fs-body: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+  --fs-md: 0.9375rem;
+  --fs-sm: 0.875rem;
+  --fs-xs: 0.75rem;
+  --tracking-tight: -0.03em;
+  --tracking-label: 0.16em;
+
+  /* Espaciado — base 8px */
+  --s-1: 8px;
+  --s-2: 16px;
+  --s-3: 24px;
+  --s-4: 32px;
+  --s-5: 40px;
+  --s-6: 48px;
+  --s-8: 64px;
+  --s-12: 96px;
+  --s-16: 128px;
+  --container: 1120px;
+  --gutter: 40px;
+  --section-y: clamp(96px, 6rem + 4vw, 160px);
+  --nav-h: 80px;
+
+  /* Forma y movimiento */
+  --radius: 16px;
+  --radius-sm: 12px;
+  --radius-pill: 75px;
+  --ease: cubic-bezier(0.19, 1, 0.22, 1);
+  --dur: 600ms;
+  --dur-fast: 300ms;
+}
+
+/* Tema oscuro. .on-dark aplica los mismos valores a zonas siempre oscuras (hero, nav sobre el hero). */
+:root[data-theme="dark"],
+.on-dark {
+  --bg: var(--c-ink);
+  --bg-alt: var(--c-charcoal);
+  --surface: var(--c-charcoal);
+  --text: var(--c-mist);
+  --text-2: rgba(232, 236, 244, 0.72);
+  --text-3: var(--c-gray);
+  --accent: var(--c-mint);
+  --accent-soft: rgba(95, 234, 212, 0.08);
+  --on-accent: var(--c-black);
+  --danger: #F97066;
+  --border: rgba(232, 236, 244, 0.08);
+  --border-strong: rgba(232, 236, 244, 0.16);
+  --nav-bg: rgba(10, 12, 16, 0.72);
+  --menu-bg: rgba(10, 12, 16, 0.97);
+  --btn-bg: var(--c-mist);
+  --btn-fg: var(--c-black);
+  --logo-filter: none;
+  color-scheme: dark;
+}
+
+/* Footer en tema oscuro: un escalón más claro que la página y borde marcado,
+   para que se lea como el límite del sitio. (Va aparte de .on-dark a propósito.) */
+:root[data-theme="dark"] {
+  --footer-bg: #161920;
+  --footer-border: rgba(232, 236, 244, 0.16);
+  --footer-text-3: var(--c-gray);
+}
+
+/* --------------------------------------------------------------------------
+   BASE
+   -------------------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  font-family: var(--font);
+  font-size: var(--fs-body);
+  line-height: 1.6;
+  color: var(--text);
+  background: var(--bg);
+  overflow-x: hidden;
+  min-height: 100vh;
+  transition: background-color var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color var(--dur-fast) var(--ease);
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/* --------------------------------------------------------------------------
+   UTILIDADES
+   -------------------------------------------------------------------------- */
+.container {
+  width: 100%;
+  max-width: calc(var(--container) + 2 * var(--gutter));
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.divider {
+  display: block;
+  width: calc(100% - 2 * var(--gutter));
+  max-width: var(--container);
+  height: 1px;
+  margin: 0 auto;
+  border: 0;
+  background: var(--border);
+}
+
+/* Label pequeño en mayúsculas */
+.eyebrow,
+.label {
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-1);
+  margin-bottom: var(--s-3);
+}
+
+.eyebrow::before {
+  content: "";
+  width: var(--s-3);
+  height: 1px;
+  background: var(--accent);
+}
+
+/* --------------------------------------------------------------------------
+   BOTONES — pill, primario y secundario
+   -------------------------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-1);
+  min-height: 48px;
+  padding: 0 var(--s-3);
+  font-size: var(--fs-md);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  text-align: center;
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  transition:
+    background-color var(--dur-fast) var(--ease),
+    border-color var(--dur-fast) var(--ease),
+    color var(--dur-fast) var(--ease);
+}
+
+.btn svg {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  transition: transform var(--dur-fast) var(--ease);
+}
+
+.btn:hover svg {
+  transform: translateX(4px);
+}
+
+.btn-primary {
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+}
+
+.btn-primary:hover {
+  background: var(--c-mint);
+  color: var(--c-black);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--text);
+  border-color: var(--border-strong);
+}
+
+.btn-secondary:hover {
+  border-color: var(--text);
+}
+
+.btn[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* --------------------------------------------------------------------------
+   TARJETA
+   -------------------------------------------------------------------------- */
+.card {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--s-4);
+}
+
+/* Nota con título (precios y formulario) */
+.pricing-note-box {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--s-3);
+}
+
+.pricing-note-box-title {
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--text);
+  margin-bottom: var(--s-1);
+}
+
+.pricing-note-box p:not(.pricing-note-box-title) {
+  font-size: var(--fs-sm);
+  color: var(--text-2);
+  line-height: 1.6;
+}
+
+/* --------------------------------------------------------------------------
+   NAVEGACIÓN
+   -------------------------------------------------------------------------- */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: var(--s-2) 0;
+  color: var(--text);
+  border-bottom: 1px solid transparent;
+  transition:
+    opacity var(--dur) var(--ease),
+    background-color var(--dur-fast) var(--ease),
+    border-color var(--dur-fast) var(--ease),
+    color var(--dur-fast) var(--ease);
+}
+
+.nav.is-scrolled {
+  background: var(--nav-bg);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  backdrop-filter: blur(16px) saturate(160%);
+  border-bottom-color: var(--border);
+}
+
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-4);
+}
+
+.nav-logo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  line-height: 0;
+  flex-shrink: 0;
+}
+
+.nav-logo {
+  min-width: 40px;
+  min-height: 40px;
+}
+
+.nav-logo-img {
+  display: block;
+  height: 28px;
+  width: auto;
+  aspect-ratio: 243 / 225;
+  filter: var(--logo-filter);
+  transition: filter var(--dur-fast) var(--ease);
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+}
+
+.nav-link {
+  position: relative;
+  font-size: var(--fs-md);
+  font-weight: 500;
+  color: var(--text-2);
+  padding: var(--s-1) 0;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 4px;
+  height: 1px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform var(--dur-fast) var(--ease);
+}
+
+.nav-link:hover,
+.nav-link[aria-current="page"] {
+  color: var(--text);
+}
+
+.nav-link:hover::after,
+.nav-link[aria-current="page"]::after {
+  transform: scaleX(1);
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--s-1);
+}
+
+.nav-cta {
+  min-height: 40px;
+  padding: 0 var(--s-3);
+  font-size: var(--fs-sm);
+}
+
+.theme-toggle {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-pill);
+  color: var(--text-2);
+  border: 1px solid var(--border-strong);
+  transition: color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease);
+}
+
+.theme-toggle:hover {
+  color: var(--text);
+  border-color: var(--text);
+}
+
+.theme-toggle svg {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  transition: transform var(--dur) var(--ease), opacity var(--dur-fast) var(--ease);
+}
+
+.theme-toggle .icon-sun { opacity: 0; transform: rotate(-90deg) scale(0.6); }
+.theme-toggle .icon-moon { opacity: 1; transform: rotate(0) scale(1); }
+:root[data-theme="dark"] .theme-toggle .icon-sun { opacity: 1; transform: rotate(0) scale(1); }
+:root[data-theme="dark"] .theme-toggle .icon-moon { opacity: 0; transform: rotate(90deg) scale(0.6); }
+
+.nav-toggle {
+  display: none;
+  width: 40px;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-pill);
+}
+
+.nav-toggle-icon {
+  position: relative;
+  width: 20px;
+  height: 14px;
+}
+
+.nav-toggle-icon span {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 1.5px;
+  background: var(--text);
+  border-radius: 2px;
+  transition: transform var(--dur-fast) var(--ease), opacity var(--dur-fast) var(--ease);
+}
+
+.nav-toggle-icon span:nth-child(1) { top: 0; }
+.nav-toggle-icon span:nth-child(2) { top: 50%; transform: translateY(-50%); }
+.nav-toggle-icon span:nth-child(3) { bottom: 0; }
+.nav-toggle.is-open .nav-toggle-icon span:nth-child(1) { top: 50%; transform: translateY(-50%) rotate(45deg); }
+.nav-toggle.is-open .nav-toggle-icon span:nth-child(2) { opacity: 0; }
+.nav-toggle.is-open .nav-toggle-icon span:nth-child(3) { bottom: 50%; transform: translateY(50%) rotate(-45deg); }
+
+.mobile-menu {
+  position: fixed;
+  top: var(--nav-h);
+  left: 0;
+  right: 0;
+  z-index: 90;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-1);
+  padding: var(--s-3) var(--gutter);
+  background: var(--menu-bg);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  transform: translateY(-100%);
+  opacity: 0;
+  visibility: hidden;
+  transition: transform var(--dur) var(--ease), opacity var(--dur-fast) var(--ease), visibility 0s linear var(--dur-fast);
+}
+
+.mobile-menu.is-open {
+  transform: translateY(0);
+  opacity: 1;
+  visibility: visible;
+  transition: transform var(--dur) var(--ease), opacity var(--dur-fast) var(--ease), visibility 0s;
+}
+
+.mobile-menu a:not(.btn) {
+  padding: var(--s-2) 0;
+  font-size: 1rem;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+}
+
+.mobile-menu .btn {
+  margin-top: var(--s-2);
+  align-self: flex-start;
+}
+
+/* --------------------------------------------------------------------------
+   FOOTER
+   -------------------------------------------------------------------------- */
+/* El footer lleva .on-dark (texto claro); aquí se fija su fondo por tema */
+.footer {
+  --text-3: var(--footer-text-3);
+  padding: var(--s-12) 0 var(--s-6);
+  color: var(--text);
+  background: var(--footer-bg);
+  border-top: 1px solid var(--footer-border);
+}
+
+.footer-inner {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--s-4);
+  flex-wrap: wrap;
+}
+
+.footer-brand {
+  max-width: 280px;
+}
+
+.footer-tagline {
+  margin-top: var(--s-2);
+  font-size: var(--fs-sm);
+  color: var(--text-3);
+  line-height: 1.6;
+}
+
+.footer-links {
+  display: flex;
+  gap: var(--s-6);
+  flex-wrap: wrap;
+}
+
+.footer-col {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-1);
+}
+
+.footer-col-title {
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: var(--s-1);
+}
+
+.footer-col a {
+  font-size: var(--fs-md);
+  color: var(--text-2);
+}
+
+.footer-col a:hover {
+  color: var(--text);
+}
+
+.footer-bottom {
+  margin-top: var(--s-6);
+  padding-top: var(--s-3);
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-2);
+  flex-wrap: wrap;
+}
+
+.footer-copy {
+  font-size: var(--fs-sm);
+  color: var(--text-3);
+}
+
+.footer-social {
+  display: flex;
+  gap: var(--s-1);
+}
+
+.footer-social a {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-pill);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border-strong);
+  color: var(--text-2);
+  transition: color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease);
+}
+
+.footer-social a:hover {
+  color: var(--text);
+  border-color: var(--text);
+}
+
+.footer-social svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* --------------------------------------------------------------------------
+   RESPONSIVE
+   -------------------------------------------------------------------------- */
+@media (max-width: 1199px) {
+  :root { --gutter: 24px; }
+}
+
+@media (max-width: 900px) {
+  .nav-links,
+  .nav-cta {
+    display: none;
+  }
+  .nav-toggle {
+    display: inline-flex;
+  }
+}
+
+@media (max-width: 809px) {
+  :root { --nav-h: 72px; }
+  .nav-logo-img { height: 24px; }
+  .footer-inner { flex-direction: column; }
+  .footer-links { gap: var(--s-4); }
+}
+
+/* --------------------------------------------------------------------------
+   MOVIMIENTO REDUCIDO
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
